@@ -33,15 +33,9 @@ function createMethod( method ) {
                 const args = matches.slice( 1 ).map( v => decodeURIComponent( v ) );
                 return Promise.resolve( fn.call( this.app, ctx, next, ...args ) );
             }
-
             return next();
         };
-
-        if( this.app ) {
-            return this.app.use( func );
-        }
-
-        return func;
+        return this.app ? this.app.use( func ) : func;
     };
 
 }

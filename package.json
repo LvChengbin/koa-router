@@ -1,5 +1,5 @@
 {
-	"name": "koa-router",
+	"name": "@lvchengbin/koa-router",
 	"description": "Koa router middleware",
 	"repository": "git@github.com:LvChengbin/koa-router.git",
 	"version": "0.0.1",
