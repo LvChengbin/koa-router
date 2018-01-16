@@ -1,0 +1,22 @@
+{
+	"name": "koa-router",
+	"description": "Koa router middleware",
+	"repository": "git@github.com:LvChengbin/koa-router.git",
+	"version": "0.0.1",
+	"keywords": [
+		"koa",
+		"middleware",
+		"router",
+		"route"
+	],
+	"files": [
+		"index.js"
+	],
+	"devDependencies": {
+	},
+	"license": "MIT",
+	"dependencies": {
+		"path-to-regexp": "^2.1.0"
+    },
+	"scripts": {}
+}
