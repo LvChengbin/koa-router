@@ -50,9 +50,9 @@ class Router {
 
 
     }
-    any( methods = [ 'GET', 'POST' ], path, fn, options = {} ) {
+    any( m, path, fn, options = {} ) {
         const handler = createMethod.call( this );
-        options.methods = methods;
+        options.methods = m === '*' ? methods : m;
         return handler( path, fn, options );
     }
 }

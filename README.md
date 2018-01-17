@@ -44,6 +44,14 @@ router.any( [ 'get', 'post' ], '/api', async ctx => {
 } );
 ```
 
+Using asterisk (*) as the first argument of `router.any` would match all methods:
+
+```js
+router.any( '*', '/api', async ctx => {
+    ctx.body = 'This would be execute with all methods';
+} );
+```
+
 In default situation, if you pass the instance of `Koa` to the constructor of `koa-router`, `app.use` would be called automatically. Therefore, if you don't want to execute `app.use` automatically, you don't need to pass the `Koa` instance to the constructor of `koa-router`. Then, you can also call `app.use` later.
 
 ```js
