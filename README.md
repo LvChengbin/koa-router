@@ -1,6 +1,6 @@
 # koa-router
 
-A really simple route middleware for koa for giving you a simple way to manage the request.
+A simple routing middleware for koa which can match path string, and queries.
 
 ## Installation
 
@@ -28,6 +28,43 @@ router.get( '/user/:id', async ( ctx, next, id ) => {
 
 router.post( '/add', async ctx => {
     ctx.body = 'Add data';
+} );
+
+app.listen( 3000 );
+```
+
+You can also use `RegExp` for the router:
+
+```js
+const Koa = require( 'koa' );
+const Router = require( '@lvchengbin/koa-router' );
+
+const app = new Koa();
+const router = new Router( app );
+
+router.get( /^\/user\/(\d+)/, async ( ctx, next, id ) => {
+    ctx.body = id;
+} );
+
+app.listen( 3000 );
+```
+
+You can also try matching queries in query string:
+
+```js
+const Koa = require( 'koa' );
+const Router = require( '@lvchengbin/koa-router' );
+
+const app = new Koa();
+const router = new Router( app );
+
+// match all requests with a query responseType and it's value should be jsonp
+router.get( { responseType : 'jsonp' } , async ( ctx, next ) => {
+    ctx.body = id;
+} );
+
+// match all id start with 1
+router.get( { id : /^1(\d+)/ }, async ctx => {
 } );
 
 app.listen( 3000 );

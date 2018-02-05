@@ -2,7 +2,7 @@
 	"name": "@lvchengbin/koa-router",
 	"description": "Koa router middleware",
 	"repository": "git@github.com:LvChengbin/koa-router.git",
-	"version": "0.0.2",
+	"version": "0.0.4",
 	"keywords": [
 		"koa",
 		"middleware",
@@ -13,10 +13,22 @@
 		"index.js"
 	],
 	"devDependencies": {
+		"jasmine": "^2.8.0",
+		"koa": "^2.4.1",
+		"koa-bodyparser": "^4.2.0",
+		"nodemon": "^1.14.11",
+		"supertest": "^3.0.0"
 	},
+	"author": "LvChengbin",
 	"license": "MIT",
 	"dependencies": {
+		"@lvchengbin/is": "0.0.9",
 		"path-to-regexp": "^2.1.0"
-    },
-	"scripts": {}
+	},
+	"scripts": {
+		"test-watch": "nodemon --exec npm test",
+		"test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json",
+		"lint": "eslint ./ --cache --ignore-path .eslintignore",
+		"precommit-msg": "echo 'Pre-commit checks...' && exit 0"
+	}
 }

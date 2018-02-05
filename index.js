@@ -1,3 +1,4 @@
+const is = require( '@lvchengbin/is' );
 const re = require( 'path-to-regexp' );
 
 const methods = [ 'HEAD', 'OPTIONS', 'GET', 'PUT', 'PATCH', 'POST', 'DELETE' ];
@@ -27,7 +28,37 @@ function createMethod( method ) {
 
             const keys = [];
 
-            const matches = re( path, keys, options ).exec( ctx.path );
+            let matches;
+
+            if( is.regexp( path ) ) {
+                path.lastIndex = 0;
+                matches = path.exec( ctx.path );
+            } else if( is.object( path ) ) {
+                const keys = Object.keys( path );
+                const query = ctx.query;
+                matches = [ true ];
+
+                for( let key of keys ) {
+                    if( is.undefined( query[ key ] ) ) {
+                        matches = false;
+                        break;
+                    }
+
+                    if( is.regexp( path[ key ] ) ) {
+                        path[ key ].lastIndex = 0;
+                        if( !path[ key ].test( query[ key ] ) ) {
+                            matches = false;
+                            break;
+                        }
+                    } else if( query[ key ] != path[ key ] ) {
+                        matches = false;
+                        break;
+                    }
+                }
+
+            } else {
+                matches = re( path, keys, options ).exec( ctx.path );
+            }
 
             if( matches ) {
                 const args = matches.slice( 1 ).map( v => decodeURIComponent( v ) );
