@@ -39,17 +39,25 @@ function createMethod( method ) {
                 matches = [ true ];
 
                 for( let key of keys ) {
+                    const item = path[ key ];
+
+                    if( item === false && is.undefined( query[ key ] ) ) {
+                        continue;
+                    }
+
                     if( is.undefined( query[ key ] ) ) {
                         matches = false;
                         break;
                     }
 
-                    if( is.regexp( path[ key ] ) ) {
+                    if( is.regexp( item ) ) {
                         path[ key ].lastIndex = 0;
                         if( !path[ key ].test( query[ key ] ) ) {
                             matches = false;
                             break;
                         }
+                    } else if( item === true ) {
+                        continue;
                     } else if( query[ key ] != path[ key ] ) {
                         matches = false;
                         break;
