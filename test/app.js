@@ -54,11 +54,11 @@ router.put( /\/reg/, async ctx => {
 } );
 
 router.get( /\/(\d+)\/(\d+)\/(\d+)/, async ( ctx, next, m, n, i ) => {
-    ctx.body = { m, n, i };
+    ctx.body = { m, n, i, matches : ctx.routerMatches };
 } );
 
 router.get( '/:a/:b/:c', async ( ctx, next, a, b, c ) => {
-    ctx.body = { a, b, c };
+    ctx.body = { a, b, c, matches : ctx.routerMatches };
 } );
 
 router.get( { query : 'abcd' }, async ctx => {
@@ -69,5 +69,21 @@ router.get( { m : /^\d+$/ }, async ctx => {
     ctx.body = ctx.query.m
 } );
 
+router.get( [ '/mul/arr1/:a/:b', /mul\/arr2\/([^/]+)\/([^/]+)/ ], async( ctx, next, m, n ) => {
+    ctx.body = {
+        m, n,
+        matches : ctx.routerMatches
+    }
+} );
+
+router.get( function*() {
+    yield '/mul/gen1/:a/:b';
+    yield /mul\/gen2\/([^/]+)\/([^/]+)/;
+}, async( ctx, next, m, n ) => {
+    ctx.body = {
+        m, n,
+        matches : ctx.routerMatches
+    }
+} );
 
 module.exports = app;

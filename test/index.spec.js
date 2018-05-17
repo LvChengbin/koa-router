@@ -36,7 +36,8 @@ describe( 'complex', () => {
             .expect( {
                 a : 'x',
                 b : 'y',
-                c : 'z'
+                c : 'z',
+                matches : [ 'x', 'y', 'z' ]
             } )
             .end( err => err ? done.fail( err ) : done() );
 
@@ -48,7 +49,8 @@ describe( 'complex', () => {
             .expect( {
                 m : '1',
                 n : '2',
-                i : '3'
+                i : '3',
+                matches : [ 1, 2, 3 ]
             } )
             .end( err => err ? done.fail( err ) : done() );
 
@@ -65,6 +67,58 @@ describe( 'complex', () => {
         request( app.listen() )
             .get( '/xxx?m=123' )
             .expect( '123' )
+            .end( err => err ? done.fail( err ) : done() );
+    } );
+} );
+
+describe( 'multiple paths with an array', () => {
+    it( 'arr1', done => {
+        request( app.listen() )
+            .get( '/mul/arr1/x/y' )
+            .expect( 200 )
+            .expect( {
+                m : 'x',
+                n : 'y',
+                matches : [ 'x', 'y' ]
+            } )
+            .end( err => err ? done.fail( err ) : done() );
+    } );
+
+    it( 'arr2', done => {
+        request( app.listen() )
+            .get( '/mul/arr2/m/n' )
+            .expect( 200 )
+            .expect( {
+                m : 'm',
+                n : 'n',
+                matches : [ 'm', 'n' ]
+            } )
+            .end( err => err ? done.fail( err ) : done() );
+    } );
+} );
+
+describe( 'multiple paths with an array', () => {
+    it( 'gen1', done => {
+        request( app.listen() )
+            .get( '/mul/gen1/x/y' )
+            .expect( 200 )
+            .expect( {
+                m : 'x',
+                n : 'y',
+                matches : [ 'x', 'y' ]
+            } )
+            .end( err => err ? done.fail( err ) : done() );
+    } );
+
+    it( 'gen2', done => {
+        request( app.listen() )
+            .get( '/mul/gen2/m/n' )
+            .expect( 200 )
+            .expect( {
+                m : 'm',
+                n : 'n',
+                matches : [ 'm', 'n' ]
+            } )
             .end( err => err ? done.fail( err ) : done() );
     } );
 } );

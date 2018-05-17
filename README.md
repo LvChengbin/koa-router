@@ -89,6 +89,21 @@ router.any( '*', '/api', async ctx => {
 } );
 ```
 
+Multiple `path`s can be set as an `Array` or a `Generator` in one rule:
+
+```js
+// using an array
+router.get( [ '/path/a', '/path/b' ], async ( ctx, next ) => {
+} );
+
+// using a generator
+router.get( function*() {
+    yield '/path/a';
+    yield '/path/b';
+}, async ( ctx, next ) => {
+} );
+```
+
 In default situation, if you pass the instance of `Koa` to the constructor of `koa-router`, `app.use` would be called automatically. Therefore, if you don't want to execute `app.use` automatically, you don't need to pass the `Koa` instance to the constructor of `koa-router`. Then, you can also call `app.use` later.
 
 ```js
