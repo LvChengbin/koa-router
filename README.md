@@ -1,5 +1,7 @@
 # koa-router
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/LvChengbin/koa-router.svg)](https://greenkeeper.io/)
+
 A simple routing middleware for koa which can match path string, and queries.
 
 ## Installation
