@@ -1,0 +1,25 @@
+sudo: false
+language: node_js
+node_js:
+    - 8
+    - 9
+    - 10
+    - 11
+cache:
+    directories:
+        - node_modules
+        - "$HOME/.npm"
+script:
+    - npm run lint
+    - npm run test-cov
+after_script:
+    - npm install codecov
+    - ./node_modules/.bin/codecov
+deploy:
+    - provider: npm
+      email: "lvchengbin59@gmail.com"
+      api_key: "7a7b2130-ca7a-4058-8695-87e93d19b1ee"
+      on:
+          branch: master
+          node: 11
+

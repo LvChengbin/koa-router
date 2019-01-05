@@ -29,6 +29,35 @@ router.put( '/', async ctx => {
     ctx.body.x = 'put';
 } );
 
+router.get( '/mul/finish', [
+    ( ctx, next ) => {
+        ctx.body = '1';
+        return next();
+    },
+    ( ctx, next ) => {
+        ctx.body += '2';
+        return next();
+    }, 
+    ctx => {
+        ctx.body += '3';
+    }
+] );
+
+
+router.any( '*', '/mul/any/finish', [
+    ( ctx, next ) => {
+        ctx.body = '1';
+        return next();
+    },
+    ( ctx, next ) => {
+        ctx.body += '2';
+        return next();
+    }, 
+    ctx => {
+        ctx.body += '3';
+    }
+] );
+
 router.any( '*', /\/reg/, async ( ctx, next ) => {
     ctx.body = {
         method : ctx.method
@@ -86,4 +115,38 @@ router.get( function*() {
     }
 } );
 
+router.get( '/mul/stuck', ctx => {
+    ctx.body = 'stuck';
+}, ctx => {
+    ctx.body += 'finished';
+} );
+
+router.get( '/mul/finish', [
+    ( ctx, next ) => {
+        ctx.body = '1';
+        return next();
+    },
+    ( ctx, next ) => {
+        ctx.body += '2';
+        return next();
+    }, 
+    ctx => {
+        ctx.body += '3';
+    }
+] );
+
+
+router.any( '*', '/mul/any/finish', [
+    ( ctx, next ) => {
+        ctx.body = '1';
+        return next();
+    },
+    ( ctx, next ) => {
+        ctx.body += '2';
+        return next();
+    }, 
+    ctx => {
+        ctx.body += '3';
+    }
+] );
 module.exports = app;

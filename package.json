@@ -12,8 +12,11 @@
 	"files": [
 		"index.js"
 	],
+	"engines": {
+		"node": ">=8.0"
+	},
 	"devDependencies": {
-		"jasmine": "^3.1.0",
+		"jest": "^23.6.0",
 		"koa": "^2.5.1",
 		"koa-bodyparser": "^4.2.0",
 		"nodemon": "^1.14.11",
@@ -26,9 +29,25 @@
 		"path-to-regexp": "^2.1.1"
 	},
 	"scripts": {
-		"test-watch": "nodemon --exec npm test",
-		"test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json",
+		"test": "jest --forceExit",
+		"tw": "jest --watchAll",
+		"test-watch": "jest --watch",
+		"test-cov": "jest --coverage --runInBand --forceExit --detectOpenHandles",
 		"lint": "eslint ./ --cache --ignore-path .eslintignore",
 		"precommit-msg": "echo 'Pre-commit checks...' && exit 0"
+	},
+	"jest": {
+		"testMatch": [
+			"**/test/**/*.spec.js"
+		],
+		"coverageReporters": [
+			"text-summary",
+			"text",
+			"lcov"
+		],
+		"collectCoverageFrom": [
+			"index.js"
+		],
+		"testEnvironment": "node"
 	}
 }

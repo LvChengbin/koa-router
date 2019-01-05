@@ -31,8 +31,7 @@ describe( 'router regex', () => {
 
 describe( 'complex', () => {
     it( 'path', done => {
-        request( app.listen() )
-            .get( '/x/y/z' )
+        request( app.listen() ).get( '/x/y/z' )
             .expect( {
                 a : 'x',
                 b : 'y',
@@ -44,28 +43,25 @@ describe( 'complex', () => {
     } );
 
     it( 'regexp', done => {
-        request( app.listen() )
-            .get( '/1/2/3' )
+        request( app.listen() ).get( '/1/2/3' )
             .expect( {
                 m : '1',
                 n : '2',
                 i : '3',
-                matches : [ 1, 2, 3 ]
+                matches : [ '1', '2', '3' ]
             } )
             .end( err => err ? done.fail( err ) : done() );
 
     } );
 
     it( 'match query', done => {
-        request( app.listen() )
-            .get( '/xxx?query=abcd' )
+        request( app.listen() ).get( '/xxx?query=abcd' )
             .expect( 'abcd' )
             .end( err => err ? done.fail( err ) : done() );
     } );
 
     it( 'regexp query', done => {
-        request( app.listen() )
-            .get( '/xxx?m=123' )
+        request( app.listen() ).get( '/xxx?m=123' )
             .expect( '123' )
             .end( err => err ? done.fail( err ) : done() );
     } );
@@ -73,8 +69,7 @@ describe( 'complex', () => {
 
 describe( 'multiple paths with an array', () => {
     it( 'arr1', done => {
-        request( app.listen() )
-            .get( '/mul/arr1/x/y' )
+        request( app.listen() ).get( '/mul/arr1/x/y' )
             .expect( 200 )
             .expect( {
                 m : 'x',
@@ -85,8 +80,7 @@ describe( 'multiple paths with an array', () => {
     } );
 
     it( 'arr2', done => {
-        request( app.listen() )
-            .get( '/mul/arr2/m/n' )
+        request( app.listen() ).get( '/mul/arr2/m/n' )
             .expect( 200 )
             .expect( {
                 m : 'm',
@@ -99,8 +93,7 @@ describe( 'multiple paths with an array', () => {
 
 describe( 'multiple paths with an array', () => {
     it( 'gen1', done => {
-        request( app.listen() )
-            .get( '/mul/gen1/x/y' )
+        request( app.listen() ).get( '/mul/gen1/x/y' )
             .expect( 200 )
             .expect( {
                 m : 'x',
@@ -111,8 +104,7 @@ describe( 'multiple paths with an array', () => {
     } );
 
     it( 'gen2', done => {
-        request( app.listen() )
-            .get( '/mul/gen2/m/n' )
+        request( app.listen() ).get( '/mul/gen2/m/n' )
             .expect( 200 )
             .expect( {
                 m : 'm',
@@ -120,5 +112,28 @@ describe( 'multiple paths with an array', () => {
                 matches : [ 'm', 'n' ]
             } )
             .end( err => err ? done.fail( err ) : done() );
+    } );
+} );
+
+describe( 'multiple middleware', () => {
+    it( 'should be stuck by a middleware', done => {
+        request( app.listen() ).get( '/mul/stuck' )
+            .expect( 200 )
+            .expect( 'stuck' )
+            .end( err => err ? done.fail( err ) : done() );
+    } ); 
+
+    it( 'should finish all middlewares', done => {
+        request( app.listen() ).get( '/mul/finish' )
+            .expect( 200 )
+            .expect( '123' )
+            .end( e => e ? done.fail( e ) : done() );
+    } );
+
+    it( 'should finish all middlewares', done => {
+        request( app.listen() ).get( '/mul/any/finish' )
+            .expect( 200 )
+            .expect( '123' )
+            .end( e => e ? done.fail( e ) : done() );
     } );
 } );

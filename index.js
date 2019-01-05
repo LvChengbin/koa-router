@@ -63,11 +63,8 @@ function match( path, ctx, options ) {
 }
 
 function createMethod( method ) {
-
     return ( path, fn, options = {} ) => {
-
         const func = async ( ctx, next ) => {
-
             if( method ) {
                 if( ctx.method !== method ) return next();
             } else {
@@ -82,7 +79,6 @@ function createMethod( method ) {
                     options.methods = [ options.methods ];
                 }
                 options.methods = options.methods.map( m => m.toUpperCase() );
-
                 if( options.methods.indexOf( ctx.method ) < 0 ) return next();
             }
 
@@ -101,7 +97,6 @@ function createMethod( method ) {
             } else {
                 matches = match( path, ctx, options );
             }
-
             if( matches ) {
                 const args = matches.slice( 1 ).map( v => decodeURIComponent( v ) );
                 ctx.routerMatches = args;
@@ -119,13 +114,28 @@ class Router {
         this.app = app;
         this.methods = methods;
         for( let method of methods ) {
-            this[ method.toLowerCase() ] = createMethod.call( this, method );
+            this[ method.toLowerCase() ] = function( path, fn, options ) {
+                if( is.iterable( fn ) ) {
+                    for( const f of fn ) {
+                        this[ method.toLowerCase() ]( path, f, options );
+                    }
+                    return;
+                }
+                createMethod.call( this, method )( ...arguments );
+            }
         }
     }
 
     any( m, path, fn, options = {} ) {
         const handler = createMethod.call( this );
         options.methods = m === '*' ? methods : m;
+
+        if( is.iterable( fn ) ) {
+            for( const f of fn ) {
+                this.any( m, path, f, options );
+            }
+            return;
+        }
         return handler( path, fn, options );
     }
 }
