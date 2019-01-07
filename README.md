@@ -74,7 +74,7 @@ If you want to add a route for multiple types of methods, you can use `router.an
 
 ```js
 const app = new Koa();
-const router new Router( app );
+const router = new Router( app );
 
 router.any( [ 'get', 'post' ], '/api', async ctx => {
     ctx.body = 'Method: ' + ctx.method;
@@ -108,11 +108,27 @@ In default situation, if you pass the instance of `Koa` to the constructor of `k
 
 ```js
 const app = new Koa();
-const router new Router();
+const router = new Router();
 
 app.use( router.get( '/user', async ctx => {
     ctx.body = 'User';
 } ) );
+```
+
+To execute multiple middlewares with a routing rule.
+
+```js
+const app = new Koa();
+const router = new Router( app );
+
+router.get( '/', [
+    ( ctx, next ) => {
+        next();
+    },
+    ctx => {
+        ctx.body = 'Hello world!';
+    }
+] );
 ```
 
 Route paths would be parsed by [path-to-regexp](https://github.com/pillarjs/path-to-regexp);

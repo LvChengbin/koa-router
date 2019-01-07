@@ -17,9 +17,7 @@ function match( path, ctx, options ) {
         for( let key of keys ) {
             const item = path[ key ];
 
-            if( item === false && is.undefined( query[ key ] ) ) {
-                continue;
-            }
+            if( item === false && is.undefined( query[ key ] ) ) continue;
 
             if( is.undefined( query[ key ] ) ) {
                 matches = false;
@@ -115,7 +113,7 @@ class Router {
         this.methods = methods;
         for( let method of methods ) {
             this[ method.toLowerCase() ] = function( path, fn, options ) {
-                if( is.iterable( fn ) ) {
+                if( is.array( fn ) ) {
                     for( const f of fn ) {
                         this[ method.toLowerCase() ]( path, f, options );
                     }
@@ -130,7 +128,7 @@ class Router {
         const handler = createMethod.call( this );
         options.methods = m === '*' ? methods : m;
 
-        if( is.iterable( fn ) ) {
+        if( is.array( fn ) ) {
             for( const f of fn ) {
                 this.any( m, path, f, options );
             }
