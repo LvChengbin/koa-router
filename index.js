@@ -62,7 +62,7 @@ function match( path, ctx, options ) {
 
 function createMethod( method ) {
     return ( path, fn, options = {} ) => {
-        const func = async ( ctx, next ) => {
+        const func = async function( ctx, next ) {
             if( method ) {
                 if( ctx.method !== method ) return next();
             } else {
@@ -98,7 +98,7 @@ function createMethod( method ) {
             if( matches ) {
                 const args = matches.slice( 1 ).map( v => decodeURIComponent( v ) );
                 ctx.routerMatches = args;
-                return Promise.resolve( fn.call( this.app, ctx, next, ...args ) );
+                return Promise.resolve( fn.call( this.app, ...arguments, ...args ) );
             }
             return next();
         };
