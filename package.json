@@ -2,7 +2,7 @@
 	"name": "@lvchengbin/koa-router",
 	"description": "Koa router middleware",
 	"repository": "git@github.com:LvChengbin/koa-router.git",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"keywords": [
 		"koa",
 		"middleware",
